@@ -15,14 +15,14 @@ class MyApp extends StatelessWidget {
       title: 'Expense Planner',
       theme: ThemeData(
         primarySwatch: Colors.indigo,
-        accentColor: Colors.indigoAccent,
+        // accentColor: Colors.indigoAccent,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
-                headline6: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            )),
+            headline6: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: Colors.indigo)),
         appBarTheme: AppBarTheme(
           titleTextStyle: ThemeData.light()
               .textTheme
