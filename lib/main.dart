@@ -97,24 +97,35 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() => _userTransactions.removeWhere((tx) => tx.id == id));
   }
 
+  var appBar = AppBar(
+    title: Text('Expense Planner'),
+    centerTitle: true,
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text('Expense Planner'),
-        centerTitle: true,
-      ),
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.275,
                 child: _recentTransactions.isNotEmpty
                     ? Chart(_recentTransactions)
                     : null),
-            TransactionList(_userTransactions, _deleteTransactions),
+            Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.725,
+                child: TransactionList(_userTransactions, _deleteTransactions)),
           ],
         ),
       ),

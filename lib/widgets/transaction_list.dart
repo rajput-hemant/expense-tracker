@@ -11,65 +11,61 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 500,
-      child: transactions.isEmpty
-          ? Column(
-              children: [
-                Padding(padding: EdgeInsets.all(20)),
-                Container(
-                  height: 300,
-                  child: Image.asset(
-                    'assets/images/notransactions.png',
-                    fit: BoxFit.cover,
-                  ),
+    return transactions.isEmpty
+        ? Column(
+            children: [
+              Padding(padding: EdgeInsets.all(20)),
+              Container(
+                height: 300,
+                child: Image.asset(
+                  'assets/images/notransactions.png',
+                  fit: BoxFit.cover,
                 ),
-                Padding(padding: EdgeInsets.all(20)),
-                Text(
-                  'No transaction added yet!',
-                  style: Theme.of(context).textTheme.headline6,
-                  textScaleFactor: 1.25,
-                ),
-              ],
-            )
-          : ListView.builder(
-              itemCount: transactions.length,
-              itemBuilder: (currentTransaction, index) {
-                return Card(
-                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-                  elevation: 5,
-                  child: ListTile(
-                    leading: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              width: 2, color: Theme.of(context).primaryColor),
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      padding: EdgeInsets.all(10),
-                      child: FittedBox(
-                        child: Text(
-                          '₹ ${transactions[index].amount}',
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
+              ),
+              Padding(padding: EdgeInsets.all(20)),
+              Text(
+                'No transaction added yet!',
+                style: Theme.of(context).textTheme.headline6,
+                textScaleFactor: 1.25,
+              ),
+            ],
+          )
+        : ListView.builder(
+            itemCount: transactions.length,
+            itemBuilder: (currentTransaction, index) {
+              return Card(
+                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                elevation: 5,
+                child: ListTile(
+                  leading: Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 2, color: Theme.of(context).primaryColor),
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    padding: EdgeInsets.all(10),
+                    child: FittedBox(
+                      child: Text(
+                        '₹ ${transactions[index].amount}',
+                        style: Theme.of(context).textTheme.headline6,
                       ),
                     ),
-                    title: Text(
-                      transactions[index].title,
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                    subtitle: Text(
-                      DateFormat.yMMMd().format(transactions[index].date),
-                    ),
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete),
-                      color: Theme.of(context).errorColor,
-                      onPressed: () =>
-                          deleteTransaction(transactions[index].id),
-                    ),
                   ),
-                );
-              },
-            ),
-    );
+                  title: Text(
+                    transactions[index].title,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  subtitle: Text(
+                    DateFormat.yMMMd().format(transactions[index].date),
+                  ),
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete),
+                    color: Theme.of(context).errorColor,
+                    onPressed: () => deleteTransaction(transactions[index].id),
+                  ),
+                ),
+              );
+            },
+          );
   }
 }
 
