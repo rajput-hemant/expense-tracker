@@ -53,6 +53,7 @@ class _NewTransactionState extends State<NewTransaction> {
     return SingleChildScrollView(
       child: Card(
         elevation: 5,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: Container(
           padding: EdgeInsets.only(
               top: 10,
@@ -62,34 +63,46 @@ class _NewTransactionState extends State<NewTransaction> {
           child: Column(
             // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Center(
+              Padding(
                 child:
                     Text('New Transaction', style: theme.textTheme.titleLarge),
+                padding: EdgeInsets.only(bottom: 10),
               ),
               TextField(
-                decoration: InputDecoration(labelText: 'Enter the Title'),
+                decoration: InputDecoration(
+                  labelText: 'Enter the Title',
+                  isDense: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
                 // onChanged: (value) => titleInput = value,
                 controller: _titleController,
                 onSubmitted: (_) => _submitData(),
               ),
+              Padding(padding: EdgeInsets.only(bottom: 10)),
               TextField(
-                decoration: InputDecoration(labelText: 'Enter the Amount'),
+                decoration: InputDecoration(
+                  labelText: 'Enter the Amount',
+                  isDense: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
                 // onChanged: (value) => amountInput = value,
                 controller: _amountController,
                 // keyboardType: TextInputType.number,
                 onSubmitted: (_) => _submitData(),
               ),
               Container(
-                height: 80,
+                height: MediaQuery.of(context).size.height * 0.125,
                 child: Row(
                   children: [
-                    // ignore: unnecessary_null_comparison
                     Expanded(
                         child: Text(_selectedDate == null
                             ? 'No Date Chosen!'
                             : 'Picked Date: ${DateFormat.yMd().format(_selectedDate!)}')),
                     FlatButton(
-                      // textColor: theme.primaryColor,
                       child: Text(
                         'Choose Date',
                         // style: TextStyle(fontWeight: FontWeight.bold)
@@ -104,10 +117,11 @@ class _NewTransactionState extends State<NewTransaction> {
                 onPressed: _submitData,
                 child: Text('Add Transaction'),
                 style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    textStyle: theme.textTheme.headline6),
+                  textStyle: theme.textTheme.headline6,
+                  minimumSize: Size(100, 50),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                ),
               )
             ],
           ),

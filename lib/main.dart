@@ -97,6 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _startAddNewTransaction(BuildContext context) {
     showModalBottomSheet(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       context: context,
       builder: (_) {
         return NewTransaction(_addNewTransaction);
