@@ -104,6 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var mediaQuery = MediaQuery.of(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBar,
@@ -113,18 +114,24 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-                height: (MediaQuery.of(context).size.height -
-                        appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.275,
+                height: _recentTransactions.isNotEmpty
+                    ? (mediaQuery.size.height -
+                            appBar.preferredSize.height -
+                            mediaQuery.padding.top) *
+                        0.275
+                    : 0,
                 child: _recentTransactions.isNotEmpty
                     ? Chart(_recentTransactions)
                     : null),
             Container(
-                height: (MediaQuery.of(context).size.height -
+                height: _recentTransactions.isNotEmpty
+                    ? (mediaQuery.size.height -
+                            appBar.preferredSize.height -
+                            mediaQuery.padding.top) *
+                        0.725
+                    : (mediaQuery.size.height -
                         appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.725,
+                        mediaQuery.padding.top),
                 child: TransactionList(_userTransactions, _deleteTransactions)),
           ],
         ),

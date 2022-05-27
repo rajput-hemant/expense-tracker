@@ -17,8 +17,6 @@ class Chart extends StatelessWidget {
             tx.date.month == weekDay.month &&
             tx.date.year == weekDay.year) totalSum += tx.amount;
       }
-      print(DateFormat.E().format(weekDay));
-      print(totalSum);
       return {
         'day': DateFormat.E().format(weekDay).substring(0, 1),
         'amount': totalSum
@@ -34,7 +32,6 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(groupedTransactionValue);
     return Card(
       elevation: 6,
       child: Padding(

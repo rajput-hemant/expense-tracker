@@ -49,17 +49,22 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    var theme = Theme.of(context);
+    return SingleChildScrollView(
       child: Card(
         elevation: 5,
         child: Container(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.only(
+              top: 10,
+              left: 10,
+              right: 10,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 10),
           child: Column(
             // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Center(
-                child: Text('New Transaction',
-                    style: Theme.of(context).textTheme.titleLarge),
+                child:
+                    Text('New Transaction', style: theme.textTheme.titleLarge),
               ),
               TextField(
                 decoration: InputDecoration(labelText: 'Enter the Title'),
@@ -84,11 +89,11 @@ class _NewTransactionState extends State<NewTransaction> {
                             ? 'No Date Chosen!'
                             : 'Picked Date: ${DateFormat.yMd().format(_selectedDate!)}')),
                     FlatButton(
-                      // textColor: Theme.of(context).primaryColor,
+                      // textColor: theme.primaryColor,
                       child: Text(
                         'Choose Date',
                         // style: TextStyle(fontWeight: FontWeight.bold)
-                        style: Theme.of(context).textTheme.headline6,
+                        style: theme.textTheme.headline6,
                       ),
                       onPressed: _presentDatePicker,
                     ),
@@ -102,7 +107,7 @@ class _NewTransactionState extends State<NewTransaction> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    textStyle: Theme.of(context).textTheme.headline6),
+                    textStyle: theme.textTheme.headline6),
               )
             ],
           ),

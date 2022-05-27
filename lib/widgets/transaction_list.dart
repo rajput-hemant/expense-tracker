@@ -11,25 +11,26 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return transactions.isEmpty
-        ? Column(
-            children: [
-              Padding(padding: EdgeInsets.all(20)),
-              Container(
-                height: 300,
-                child: Image.asset(
-                  'assets/images/notransactions.png',
-                  fit: BoxFit.cover,
+        ? LayoutBuilder(builder: (context, constraints) {
+            return Column(
+              children: [
+                Container(
+                  height: constraints.maxHeight * 0.6,
+                  child: Image.asset(
+                    'assets/images/notransactions.png',
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              Padding(padding: EdgeInsets.all(20)),
-              Text(
-                'No transaction added yet!',
-                style: Theme.of(context).textTheme.headline6,
-                textScaleFactor: 1.25,
-              ),
-            ],
-          )
+                Text(
+                  'No transaction added yet!',
+                  style: theme.textTheme.headline6,
+                  textScaleFactor: 1.25,
+                ),
+              ],
+            );
+          })
         : ListView.builder(
             itemCount: transactions.length,
             itemBuilder: (currentTransaction, index) {
@@ -39,29 +40,36 @@ class TransactionList extends StatelessWidget {
                 child: ListTile(
                   leading: Container(
                     decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 2, color: Theme.of(context).primaryColor),
+                        border: Border.all(width: 2, color: theme.primaryColor),
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     padding: EdgeInsets.all(10),
                     child: FittedBox(
                       child: Text(
                         '₹ ${transactions[index].amount}',
-                        style: Theme.of(context).textTheme.headline6,
+                        style: theme.textTheme.headline6,
                       ),
                     ),
                   ),
                   title: Text(
                     transactions[index].title,
-                    style: Theme.of(context).textTheme.headline6,
+                    style: theme.textTheme.headline6,
                   ),
                   subtitle: Text(
                     DateFormat.yMMMd().format(transactions[index].date),
                   ),
-                  trailing: IconButton(
-                    icon: Icon(Icons.delete),
-                    color: Theme.of(context).errorColor,
-                    onPressed: () => deleteTransaction(transactions[index].id),
-                  ),
+                  trailing: MediaQuery.of(context).size.width > 460
+                      ? FlatButton.icon(
+                          icon: Icon(Icons.delete),
+                          label: Text('Delete'),
+                          textColor: theme.errorColor,
+                          onPressed: () =>
+                              deleteTransaction(transactions[index].id))
+                      : IconButton(
+                          icon: Icon(Icons.delete),
+                          color: theme.errorColor,
+                          onPressed: () =>
+                              deleteTransaction(transactions[index].id),
+                        ),
                 ),
               );
             },
@@ -80,7 +88,7 @@ class TransactionList extends StatelessWidget {
 //                   EdgeInsets.symmetric(vertical: 10, horizontal: 15),
 //               decoration: BoxDecoration(
 //                 border: Border.all(
-//                   color: Theme.of(context).primaryColor,
+//                   color: theme.primaryColor,
 //                   width: 2,
 //                 ),
 //               ),
@@ -90,7 +98,7 @@ class TransactionList extends StatelessWidget {
 //                 style: TextStyle(
 //                   fontWeight: FontWeight.bold,
 //                   fontSize: 20,
-//                   color: Theme.of(context).primaryColor,
+//                   color: theme.primaryColor,
 //                 ),
 //               ),
 //             ),
@@ -98,7 +106,7 @@ class TransactionList extends StatelessWidget {
 //               crossAxisAlignment: CrossAxisAlignment.start,
 //               children: [
 //                 Text(transactions[index].title,
-//                     style: Theme.of(context).textTheme.headline6),
+//                     style: theme.textTheme.headline6),
 //                 Text(
 //                   DateFormat.yMMMd().format(transactions[index].date),
 //                   style: TextStyle(
