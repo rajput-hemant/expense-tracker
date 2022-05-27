@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+// import 'package:flutter/services.dart';
 
 import 'widgets/new_transaction.dart';
 import 'widgets/transaction_list.dart';
 import 'widgets/chart.dart';
 import 'models/transaction.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  // WidgetsFlutterBinding();
+  // SystemChrome.setPreferredOrientations([
+  //   DeviceOrientation.portraitUp,
+  // DeviceOrientation.portraitDown,
+  // DeviceOrientation.landscapeLeft,
+  // ]);
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -62,6 +71,8 @@ class _MyHomePageState extends State<MyHomePage> {
     // ),
   ];
 
+  bool _showChart = false;
+
   List<Transaction> get _recentTransactions {
     return _userTransactions.where(
       (transaction) {
@@ -104,7 +115,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final _isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     var mediaQuery = MediaQuery.of(context);
+    final transactionList = Container(
+        height: _recentTransactions.isNotEmpty
+            ? (mediaQuery.size.height -
+                    appBar.preferredSize.height -
+                    mediaQuery.padding.top) *
+                0.725
+            : (mediaQuery.size.height -
+                appBar.preferredSize.height -
+                mediaQuery.padding.top),
+        child: TransactionList(_userTransactions, _deleteTransactions));
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBar,
@@ -113,26 +136,41 @@ class _MyHomePageState extends State<MyHomePage> {
           // mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-                height: _recentTransactions.isNotEmpty
-                    ? (mediaQuery.size.height -
-                            appBar.preferredSize.height -
-                            mediaQuery.padding.top) *
-                        0.275
-                    : 0,
-                child: _recentTransactions.isNotEmpty
-                    ? Chart(_recentTransactions)
-                    : null),
-            Container(
-                height: _recentTransactions.isNotEmpty
-                    ? (mediaQuery.size.height -
-                            appBar.preferredSize.height -
-                            mediaQuery.padding.top) *
-                        0.725
-                    : (mediaQuery.size.height -
-                        appBar.preferredSize.height -
-                        mediaQuery.padding.top),
-                child: TransactionList(_userTransactions, _deleteTransactions)),
+            if (!_isLandscape)
+              Container(
+                  height: _recentTransactions.isNotEmpty
+                      ? (mediaQuery.size.height -
+                              appBar.preferredSize.height -
+                              mediaQuery.padding.top) *
+                          0.275
+                      : 0,
+                  child: _recentTransactions.isNotEmpty
+                      ? Chart(_recentTransactions)
+                      : null),
+            if (!_isLandscape) transactionList,
+            if (_isLandscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Show Chart'),
+                  Switch(
+                      value: _showChart,
+                      onChanged: (val) {
+                        setState(() => _showChart = val);
+                      }),
+                ],
+              ),
+            if (_isLandscape)
+              _showChart
+                  ? Container(
+                      height: (mediaQuery.size.height -
+                              appBar.preferredSize.height -
+                              mediaQuery.padding.top) *
+                          (_recentTransactions.isNotEmpty ? 0.7 : 1),
+                      child: _recentTransactions.isNotEmpty
+                          ? Chart(_recentTransactions)
+                          : transactionList)
+                  : transactionList,
           ],
         ),
       ),
