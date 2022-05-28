@@ -112,6 +112,19 @@ class _MyHomePageState extends State<MyHomePage> {
   var appBar = AppBar(
     title: Text('Expense Planner'),
     centerTitle: true,
+    flexibleSpace: Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
+          colors: [
+            Color.fromARGB(255, 63, 119, 241),
+            // Color.fromARGB(255, 45, 58, 233),
+            Color.fromARGB(255, 23, 0, 78),
+          ],
+        ),
+      ),
+    ),
   );
 
   @override
@@ -124,7 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ? (mediaQuery.size.height -
                     appBar.preferredSize.height -
                     mediaQuery.padding.top) *
-                0.725
+                (_isLandscape ? 1 : 0.725)
             : (mediaQuery.size.height -
                 appBar.preferredSize.height -
                 mediaQuery.padding.top),
@@ -152,22 +165,28 @@ class _MyHomePageState extends State<MyHomePage> {
             if (_isLandscape)
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Show Chart'),
-                  Switch(
-                      value: _showChart,
-                      onChanged: (val) {
-                        setState(() => _showChart = val);
-                      }),
-                ],
+                children: _recentTransactions.isNotEmpty
+                    ? [
+                        Text(
+                          'Show Chart',
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                        Switch(
+                            value: _showChart,
+                            onChanged: (val) {
+                              setState(() => _showChart = val);
+                            }),
+                      ]
+                    : [],
               ),
             if (_isLandscape)
               _showChart
                   ? Container(
+                      width: mediaQuery.size.width * 0.8,
                       height: (mediaQuery.size.height -
                               appBar.preferredSize.height -
                               mediaQuery.padding.top) *
-                          (_recentTransactions.isNotEmpty ? 0.7 : 1),
+                          (_recentTransactions.isNotEmpty ? 0.65 : 1),
                       child: _recentTransactions.isNotEmpty
                           ? Chart(_recentTransactions)
                           : transactionList)

@@ -20,7 +20,7 @@ class TransactionList extends StatelessWidget {
                   height: constraints.maxHeight * 0.6,
                   child: Image.asset(
                     'assets/images/notransactions.png',
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fill,
                   ),
                 ),
                 Text(
@@ -36,12 +36,15 @@ class TransactionList extends StatelessWidget {
             itemBuilder: (currentTransaction, index) {
               return Card(
                 margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-                elevation: 5,
+                elevation: 10,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
                 child: ListTile(
                   leading: Container(
                     decoration: BoxDecoration(
-                        border: Border.all(width: 2, color: theme.primaryColor),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                      border: Border.all(width: 2, color: theme.primaryColor),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
                     padding: EdgeInsets.all(10),
                     child: FittedBox(
                       child: Text(
@@ -58,13 +61,21 @@ class TransactionList extends StatelessWidget {
                     DateFormat.yMMMd().format(transactions[index].date),
                   ),
                   trailing: MediaQuery.of(context).size.width > 460
-                      ? FlatButton.icon(
+                      ? OutlinedButton.icon(
                           icon: Icon(Icons.delete),
                           label: Text('Delete'),
-                          textColor: theme.errorColor,
+                          style: OutlinedButton.styleFrom(
+                              padding: EdgeInsets.all(17),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              primary: theme.errorColor,
+                              side: BorderSide(
+                                  width: 1.0, color: theme.errorColor)),
+                          // textColor: theme.errorColor,
                           onPressed: () =>
                               deleteTransaction(transactions[index].id))
                       : IconButton(
+                          splashRadius: 30,
                           icon: Icon(Icons.delete),
                           color: theme.errorColor,
                           onPressed: () =>
