@@ -127,21 +127,71 @@ class _MyHomePageState extends State<MyHomePage> {
     ),
   );
 
+  List<Widget> _buildPortraitContent(
+      MediaQueryData mediaQuery, Widget transactionList) {
+    return [
+      Container(
+          height: _recentTransactions.isNotEmpty
+              ? (mediaQuery.size.height -
+                      appBar.preferredSize.height -
+                      mediaQuery.padding.top) *
+                  0.275
+              : 0,
+          child: _recentTransactions.isNotEmpty
+              ? Chart(_recentTransactions)
+              : null),
+      transactionList
+    ];
+  }
+
+  List<Widget> _buildLandscapeContent(
+      MediaQueryData mediaQuery, Widget transactionList) {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: _recentTransactions.isNotEmpty
+            ? [
+                Text(
+                  'Show Chart',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                Switch(
+                    value: _showChart,
+                    onChanged: (val) {
+                      setState(() => _showChart = val);
+                    }),
+              ]
+            : [],
+      ),
+      _showChart
+          ? Container(
+              width: mediaQuery.size.width * 0.8,
+              height: (mediaQuery.size.height -
+                      appBar.preferredSize.height -
+                      mediaQuery.padding.top) *
+                  (_recentTransactions.isNotEmpty ? 0.65 : 1),
+              child: _recentTransactions.isNotEmpty
+                  ? Chart(_recentTransactions)
+                  : transactionList)
+          : transactionList,
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
     var mediaQuery = MediaQuery.of(context);
+    final _isLandscape = mediaQuery.orientation == Orientation.landscape;
     final transactionList = Container(
-        height: _recentTransactions.isNotEmpty
-            ? (mediaQuery.size.height -
-                    appBar.preferredSize.height -
-                    mediaQuery.padding.top) *
-                (_isLandscape ? 1 : 0.725)
-            : (mediaQuery.size.height -
-                appBar.preferredSize.height -
-                mediaQuery.padding.top),
-        child: TransactionList(_userTransactions, _deleteTransactions));
+      height: _recentTransactions.isNotEmpty
+          ? (mediaQuery.size.height -
+                  appBar.preferredSize.height -
+                  mediaQuery.padding.top) *
+              (_isLandscape ? 1 : 0.725)
+          : (mediaQuery.size.height -
+              appBar.preferredSize.height -
+              mediaQuery.padding.top),
+      child: TransactionList(_userTransactions, _deleteTransactions),
+    );
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBar,
@@ -150,47 +200,9 @@ class _MyHomePageState extends State<MyHomePage> {
           // mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            if (!_isLandscape)
-              Container(
-                  height: _recentTransactions.isNotEmpty
-                      ? (mediaQuery.size.height -
-                              appBar.preferredSize.height -
-                              mediaQuery.padding.top) *
-                          0.275
-                      : 0,
-                  child: _recentTransactions.isNotEmpty
-                      ? Chart(_recentTransactions)
-                      : null),
-            if (!_isLandscape) transactionList,
-            if (_isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: _recentTransactions.isNotEmpty
-                    ? [
-                        Text(
-                          'Show Chart',
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                        Switch(
-                            value: _showChart,
-                            onChanged: (val) {
-                              setState(() => _showChart = val);
-                            }),
-                      ]
-                    : [],
-              ),
-            if (_isLandscape)
-              _showChart
-                  ? Container(
-                      width: mediaQuery.size.width * 0.8,
-                      height: (mediaQuery.size.height -
-                              appBar.preferredSize.height -
-                              mediaQuery.padding.top) *
-                          (_recentTransactions.isNotEmpty ? 0.65 : 1),
-                      child: _recentTransactions.isNotEmpty
-                          ? Chart(_recentTransactions)
-                          : transactionList)
-                  : transactionList,
+            ...(_isLandscape
+                ? _buildLandscapeContent(mediaQuery, transactionList)
+                : _buildPortraitContent(mediaQuery, transactionList))
           ],
         ),
       ),
