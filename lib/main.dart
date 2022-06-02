@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Expense Planner',
+      title: 'Expense Tracker',
       theme: ThemeData(
         primarySwatch: Colors.indigo,
         // accentColor: Colors.indigoAccent,
@@ -110,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   var appBar = AppBar(
-    title: Text('Expense Planner'),
+    title: Text('Expense Tracker'),
     centerTitle: true,
     flexibleSpace: Container(
       decoration: BoxDecoration(

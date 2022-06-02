@@ -1,4 +1,4 @@
-name: expense_planner
+name: expense_tracker
 description: A simple app for managing expenses.
 
 # The following line prevents the package from being accidentally published to
