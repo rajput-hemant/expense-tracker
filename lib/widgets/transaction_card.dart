@@ -46,7 +46,7 @@ class TransactionItem extends StatelessWidget {
                 icon: Icon(Icons.delete),
                 label: Text('Delete'),
                 style: OutlinedButton.styleFrom(
-                    padding: EdgeInsets.all(17),
+                    padding: EdgeInsets.all(11),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                     primary: theme.errorColor,

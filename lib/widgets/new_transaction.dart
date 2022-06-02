@@ -99,10 +99,13 @@ class _NewTransactionState extends State<NewTransaction> {
                 child: Row(
                   children: [
                     Expanded(
-                        child: Text(_selectedDate == null
+                      child: Text(
+                        _selectedDate == null
                             ? 'No Date Chosen!'
-                            : 'Picked Date: ${DateFormat.yMd().format(_selectedDate!)}')),
-                    FlatButton(
+                            : 'Picked Date: ${DateFormat.yMd().format(_selectedDate!)}',
+                      ),
+                    ),
+                    OutlinedButton(
                       child: Text(
                         'Choose Date',
                         // style: TextStyle(fontWeight: FontWeight.bold)

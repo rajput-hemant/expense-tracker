@@ -20,7 +20,7 @@ class TransactionList extends StatelessWidget {
                   height: constraints.maxHeight * 0.6,
                   child: Image.asset(
                     'assets/images/notransactions.png',
-                    fit: BoxFit.fill,
+                    fit: BoxFit.contain,
                   ),
                 ),
                 Text(
@@ -35,8 +35,9 @@ class TransactionList extends StatelessWidget {
             itemCount: transactions.length,
             itemBuilder: (currentTransaction, index) {
               return TransactionItem(
-                  transaction: transactions[index],
-                  deleteTransaction: deleteTransaction);
+                transaction: transactions[index],
+                deleteTransaction: deleteTransaction,
+              );
             },
           );
   }

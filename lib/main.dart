@@ -9,9 +9,8 @@ import 'models/transaction.dart';
 void main() {
   // WidgetsFlutterBinding();
   // SystemChrome.setPreferredOrientations([
-  //   DeviceOrientation.portraitUp,
+  // DeviceOrientation.portraitUp,
   // DeviceOrientation.portraitDown,
-  // DeviceOrientation.landscapeLeft,
   // ]);
   runApp(MyApp());
 }
@@ -123,6 +122,19 @@ class _MyHomePageState extends State<MyHomePage> {
             Color.fromARGB(255, 23, 0, 78),
           ],
         ),
+        // gradient: RadialGradient(
+        //   radius: 8.5,
+        //   stops: [
+        //     0.0,
+        //     0.27,
+        //     1.0,
+        //   ],
+        //   colors: [
+        //     Color.fromARGB(255, 255, 0, 43),
+        //     Color.fromARGB(255, 168, 5, 32),
+        //     Color.fromARGB(255, 83, 3, 40),
+        //   ],
+        // ),
       ),
     ),
   );
@@ -206,7 +218,9 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: _isLandscape
+          ? FloatingActionButtonLocation.endFloat
+          : FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => _startAddNewTransaction(context),
